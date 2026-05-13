@@ -1,4 +1,3 @@
-
 def displayMenu():
     print("=========Menu=========")
     print("Choose option:")
@@ -9,4 +8,3 @@ def displayMenu():
     print("5.Start a quiz")
     print("6.Exit")
 
-displayMenu()
