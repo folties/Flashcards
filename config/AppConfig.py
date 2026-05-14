@@ -1,0 +1,1 @@
+CARDS_FILE = "cards.txt"
