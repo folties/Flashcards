@@ -12,7 +12,7 @@ class CardService:
         card = Card(question, answer, topic)
 
         self.card_repository.add_card(card)
-        self.file_service.save_card(CARDS_FILE, card)
+        self.file_service.append_card_to_file(CARDS_FILE, card)
 
     def load_cards_from_file(self):
         cards = self.file_service.read_cards_from_file(CARDS_FILE)
@@ -22,3 +22,13 @@ class CardService:
 
     def get_all_cards(self):
         return self.card_repository.get_all_cards()
+
+    def find_cards_by_topic(self, topic):
+        cards = self.card_repository.get_all_cards()
+        result = []
+
+        for card in cards:
+            if card.topic.lower() == topic.lower():
+                result.append(card)
+
+        return result

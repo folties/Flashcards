@@ -2,4 +2,5 @@ Hello,Halo,Spanish
 Dog,Perro,Spanish
 Cat,Gato,Spanish
 Apple,Manzana,Spanish
-Book,Libro,SpanishHouse,Casa,Eng-Es
+Book,Libro,Spanish
+House,Casa,Eng-Es

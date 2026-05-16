@@ -9,8 +9,7 @@ class FileService:
         with open(filename, "r") as file:
             for line in file:
                 question, answer, topic = line.strip().split(",")
-
-                cards.append(Card(question,answer,topic))
+                cards.append(Card(question, answer, topic))
 
         return cards
 
