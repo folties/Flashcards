@@ -1,1 +1,1 @@
-CARDS_FILE = "cards.txt"
+CARDS_FILE = "data/cards.json"

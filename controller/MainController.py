@@ -1,3 +1,7 @@
+from exception.InvalidCardDataException import InvalidCardDataException
+from util.decorators import menu_action
+
+
 class MainController:
 
     def __init__(self, card_service, quiz_service):
@@ -9,11 +13,13 @@ class MainController:
         print("=========Menu=========")
         print("Choose option:")
         print("1.Add new card")
-        print("2.Import cards from a file")
+        print("2.Import cards from a JSON file")
         print("3.List all cards")
-        print("4.Search cards by topic")
+        print("4.Search cards by topic/category")
         print("5.Start a quiz")
-        print("6.Exit")
+        print("6.Update card")
+        print("7.Delete card")
+        print("8.Exit")
 
     def run(self):
         running = True
@@ -23,46 +29,143 @@ class MainController:
             choice = input("Enter your choice: ")
 
             if choice == "1":
-                question = input("Enter your question: ")
-                answer = input("Enter your answer: ")
-                topic = input("Enter your topic: ")
-
-                self.card_service.add_card(question, answer, topic)
-                print("Card added")
+                self.add_card()
 
             elif choice == "2":
-                self.card_service.load_cards_from_file()
-                print("Cards imported")
+                self.import_cards()
 
             elif choice == "3":
-                cards = self.card_service.get_all_cards()
-
-                if len(cards) == 0:
-                    print("\nNo cards added")
-                    continue
-
-                for card in cards:
-                    print(card)
+                self.list_cards()
 
             elif choice == "4":
-                chosen_topic = input("Enter your topic: ")
-
-                cards = self.card_service.find_cards_by_topic(chosen_topic)
-
-                if len(cards) == 0:
-                    print("\nNo cards found")
-                    continue
-
-                for card in cards:
-                    print(card)
-
+                self.search_cards()
 
             elif choice == "5":
                 self.quiz_service.start_quiz()
 
             elif choice == "6":
+                self.update_card()
+
+            elif choice == "7":
+                self.delete_card()
+
+            elif choice == "8":
                 print("Program finished")
                 running = False
 
             else:
                 print("Invalid choice")
+
+    @menu_action
+    def add_card(self):
+        try:
+            question = input("Enter your question: ")
+            answer = input("Enter your answer: ")
+            topic = input("Enter your topic: ")
+            category = input("Enter your category: ")
+
+            self.card_service.add_card(question, answer, topic, category)
+            print("Card added")
+
+        except InvalidCardDataException as error:
+            print(f"Error: {error}")
+
+    @menu_action
+    def import_cards(self):
+        filename = input("Enter JSON filename: ")
+
+        imported = self.card_service.import_cards_from_file(filename)
+
+        if imported:
+            print("Cards imported")
+        else:
+            print("File is empty or not found")
+
+    @menu_action
+    def list_cards(self):
+        cards = self.card_service.get_all_cards()
+
+        if len(cards) == 0:
+            print("No cards added")
+            return
+
+        for index, card in enumerate(cards):
+            print(f"{index + 1}. {card}")
+
+    @menu_action
+    def search_cards(self):
+        topic = input("Enter topic: ")
+        category = input("Enter category or 'all': ")
+
+        cards = self.card_service.find_cards(topic, category)
+
+        if len(cards) == 0:
+            print("No cards found")
+            return
+
+        for card in cards:
+            print(card)
+
+    @menu_action
+    def update_card(self):
+        cards = self.card_service.get_all_cards()
+
+        if len(cards) == 0:
+            print("No cards added")
+            return
+
+        for index, card in enumerate(cards):
+            print(f"{index + 1}. {card}")
+
+        try:
+            number = int(input("Choose card number: "))
+            index = number - 1
+
+            question = input("Enter new question: ")
+            answer = input("Enter new answer: ")
+            topic = input("Enter new topic: ")
+            category = input("Enter new category: ")
+
+            updated = self.card_service.update_card(
+                index,
+                question,
+                answer,
+                topic,
+                category
+            )
+
+            if updated:
+                print("Card updated")
+            else:
+                print("Invalid card number")
+
+        except ValueError:
+            print("Card number must be an integer")
+
+        except InvalidCardDataException as error:
+            print(f"Error: {error}")
+
+    @menu_action
+    def delete_card(self):
+        cards = self.card_service.get_all_cards()
+
+        if len(cards) == 0:
+            print("No cards added")
+            return
+
+        for index, card in enumerate(cards):
+            print(f"{index + 1}. {card}")
+
+        try:
+            number = int(input("Choose card number: "))
+            index = number - 1
+
+            deleted = self.card_service.delete_card(index)
+
+            if deleted:
+                print("Card deleted")
+            else:
+                print("Invalid card number")
+
+        except ValueError:
+            print("Card number must be an integer")

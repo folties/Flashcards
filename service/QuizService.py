@@ -6,6 +6,10 @@ class QuizService:
     def __init__(self, card_service):
         self.card_service = card_service
 
+    def generate_quiz_cards(self, cards):
+        for card in cards:
+            yield card
+
     def print_card(self, text):
         width = 50
         border = "+" + "-" * width + "+"
@@ -44,12 +48,13 @@ class QuizService:
         return lines
 
     def start_quiz(self):
-        topic = input("Enter topic for quiz: ")
+        topic = input("Enter topic: ")
+        category = input("Enter category or 'all': ")
 
-        cards = self.card_service.find_cards_by_topic(topic)
+        cards = self.card_service.find_cards(topic, category)
 
         if len(cards) == 0:
-            print("No cards found for this topic")
+            print("No cards found")
             return
 
         random.shuffle(cards)
@@ -57,29 +62,27 @@ class QuizService:
         score = 0
         total = len(cards)
 
-        for index, card in enumerate(cards):
+        for index, card in enumerate(self.generate_quiz_cards(cards)):
             print()
             print(f"Card {index + 1}/{total}")
             self.print_card(card.question)
 
-            user_answer = input("Your answer: ")
+            input("Press Enter to show answer...")
 
-            if user_answer.strip().lower() == card.answer.strip().lower():
-                print("Correct!")
-                score += 1
-            else:
-                print("Wrong!")
+            self.print_card(card.answer)
 
             while True:
                 print()
-                print("1.Show answer")
-                print("2.Next card")
-                print("3.Back to main menu")
+                print("Did you know it?")
+                print("1.Correct")
+                print("2.Wrong")
+                print("3.Exit quiz")
 
                 choice = input("Choose option: ")
 
                 if choice == "1":
-                    self.print_card(card.answer)
+                    score += 1
+                    break
 
                 elif choice == "2":
                     break

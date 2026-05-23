@@ -1,0 +1,38 @@
+[
+    {
+        "question": "What is supervised learning?",
+        "answer": "Learning using labeled data",
+        "topic": "Machine Learning",
+        "category": "basics"
+    },
+    {
+        "question": "Hello",
+        "answer": "Hola",
+        "topic": "Spanish",
+        "category": "basic"
+    },
+    {
+        "question": "Dog",
+        "answer": "Perro",
+        "topic": "Spanish",
+        "category": "animals"
+    },
+    {
+        "question": "House",
+        "answer": "Casa",
+        "topic": "Spanish",
+        "category": "Casa"
+    },
+    {
+        "question": "Kitchen",
+        "answer": "Cocina",
+        "topic": "Spanish",
+        "category": "Casa"
+    },
+    {
+        "question": "Cat",
+        "answer": "Gato",
+        "topic": "Spanish",
+        "category": "animals"
+    }
+]
