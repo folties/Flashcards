@@ -42,6 +42,16 @@ class CardService:
         cards.sort(key=lambda card: card.topic.lower())
         return cards
 
+    def get_available_topics(self):
+        cards = self.card_repository.get_all_cards()
+        topics = {card.topic for card in cards}
+        return sorted(topics, key=lambda topic: topic.lower())
+
+    def get_available_categories(self, topic):
+        cards = self.find_cards_by_topic(topic)
+        categories = {card.category for card in cards}
+        return sorted(categories, key=lambda category: category.lower())
+
     def find_cards(self, topic, category):
         if category.lower() == "all":
             return self.find_cards_by_topic(topic)

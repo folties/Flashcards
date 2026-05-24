@@ -15,7 +15,11 @@ def main():
     quiz_service = QuizService(card_service)
 
     controller = MainController(card_service, quiz_service)
-    controller.run()
+
+    try:
+        controller.run()
+    except KeyboardInterrupt:
+        print("\nProgram interrupted")
 
 
 if __name__ == "__main__":

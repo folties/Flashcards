@@ -48,7 +48,16 @@ class QuizService:
         return lines
 
     def start_quiz(self):
+        topics = self.card_service.get_available_topics()
+        if len(topics) > 0:
+            print("Available topics: " + ", ".join(topics))
+
         topic = input("Enter topic: ")
+
+        categories = self.card_service.get_available_categories(topic)
+        if len(categories) > 0:
+            print("Available categories: " + ", ".join(categories))
+
         category = input("Enter category or 'all': ")
 
         cards = self.card_service.find_cards(topic, category)

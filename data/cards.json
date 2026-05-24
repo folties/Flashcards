@@ -1,11 +1,5 @@
 [
     {
-        "question": "What is supervised learning?",
-        "answer": "Learning using labeled data",
-        "topic": "Machine Learning",
-        "category": "basics"
-    },
-    {
         "question": "Hello",
         "answer": "Hola",
         "topic": "Spanish",
@@ -33,6 +27,12 @@
         "question": "Cat",
         "answer": "Gato",
         "topic": "Spanish",
-        "category": "animals"
+        "category": "Animals"
+    },
+    {
+        "question": "Verdadero",
+        "answer": "True",
+        "topic": "Spanish",
+        "category": "Common"
     }
 ]
